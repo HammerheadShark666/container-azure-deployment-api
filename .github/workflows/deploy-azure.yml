@@ -32,7 +32,7 @@ jobs:
         context: container-azure-deployment-api
         push: true
         tags: ${{ secrets.AZURE_CONTAINER_REGISTRY}}.azurecr.io/${{ secrets.CONTAINER_APP_NAME }}:${{ github.sha }}
-        file: container-azure-deployment-api/Dockerfile 
+        file: container-azure-deployment-api/container-azure-deployment-api/Dockerfile 
     - name: Azure Login
       uses: azure/login@v2
       with:
