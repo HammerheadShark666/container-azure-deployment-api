@@ -1,0 +1,49 @@
+name: Trigger auto deployment for prod-ca-container-deployment-api
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/prod-ca-container-deployment-api-AutoDeployTrigger-5a9ca623-cbb3-4433-be7d-0ed337bca1ca.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions: 
+      id-token: write #This is required for requesting the OIDC JWT Token
+      contents: read #Required when GH token is used to authenticate with private repo
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.PRODCACONTAINERDEPLOYMENTAPI_AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.PRODCACONTAINERDEPLOYMENTAPI_AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.PRODCACONTAINERDEPLOYMENTAPI_AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}
+          _dockerfilePathKey_: _dockerfilePath_
+          _targetLabelKey_: _targetLabel_
+          registryUrl: prcrcontainerdeployment.azurecr.io
+          registryUsername: ${{ secrets.PRODCACONTAINERDEPLOYMENTAPI_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.PRODCACONTAINERDEPLOYMENTAPI_REGISTRY_PASSWORD }}
+          containerAppName: prod-ca-container-deployment-api
+          resourceGroup: prod-rg-container-deployment
+          imageToBuild: prcrcontainerdeployment.azurecr.io/prod-ca-container-deployment-api:${{ github.sha }}
+          _buildArgumentsKey_: |
+            _buildArgumentsValues_
+
+
