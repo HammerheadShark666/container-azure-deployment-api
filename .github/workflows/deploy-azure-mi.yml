@@ -50,7 +50,7 @@ jobs:
       uses: azure/container-apps-deploy-action@v1
       with:
         imageToDeploy: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.CONTAINER_APP_MI_NAME }}:${{ github.sha }}
-        resourceGroup: ${{ secrets.RESOURCE_GROUP }}
+        resourceGroup: ${{ secrets.RESOURCE_GROUP_MI }}
         containerAppName: ${{ secrets.CONTAINER_APP_MI_NAME }}
         environmentVariables: |
           ASPNETCORE_ENVIRONMENT=Development
