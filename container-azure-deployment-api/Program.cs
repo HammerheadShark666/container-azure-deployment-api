@@ -40,7 +40,7 @@ app.MapGet("/health", () => "Is Healthy")
 .WithName("health")
 .WithOpenApi();
 
-app.MapGet("/sunny", () => "Is Healthy")
+app.MapGet("/sunny", () => "Is Sunny")
 .WithName("Is Sunny")
 .WithOpenApi();
 
