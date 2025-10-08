@@ -43,14 +43,14 @@ jobs:
       with:
         context: container-azure-deployment-api
         push: true
-        tags: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.CONTAINER_APP_NAME }}:${{ github.sha }}
+        tags: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.CONTAINER_APP_MI_NAME }}:${{ github.sha }}
         file: container-azure-deployment-api/Dockerfile
 
     - name: Deploy to Azure Container Apps
       uses: azure/container-apps-deploy-action@v1
       with:
-        imageToDeploy: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.CONTAINER_APP_NAME }}:${{ github.sha }}
+        imageToDeploy: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.CONTAINER_APP_MI_NAME }}:${{ github.sha }}
         resourceGroup: ${{ secrets.RESOURCE_GROUP }}
-        containerAppName: ${{ secrets.CONTAINER_APP_NAME }}
+        containerAppName: ${{ secrets.CONTAINER_APP_MI_NAME }}
         environmentVariables: |
           ASPNETCORE_ENVIRONMENT=Development
