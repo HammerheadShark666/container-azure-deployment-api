@@ -36,7 +36,7 @@ jobs:
       with:
         context: container-azure-deployment-api
         push: true
-        tags: ${{ secrets.AZURE_CONTAINER_REGISTRY}}.azurecr.io/${{ secrets.CONTAINER_APP_NAME }}:${{ github.sha }}
+        tags: ${{ secrets.AZURE_CONTAINER_REGISTRY}}.azurecr.io/${{ secrets.AZURE_CONTAINER_NAME }}:${{ github.sha }}
         file: container-azure-deployment-api/Dockerfile 
         
     - name: Azure Login
@@ -47,9 +47,9 @@ jobs:
     - name: Deploy and Azure Container Apps
       uses: azure/container-apps-deploy-action@v1	  
       with:
-        imageToDeploy: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.CONTAINER_APP_NAME }}:${{ github.sha }}
-        resourceGroup: ${{ secrets.RESOURCE_GROUP }}
-        containerAppName: ${{ secrets.CONTAINER_APP_NAME }}
+        imageToDeploy: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ secrets.AZURE_CONTAINER_NAME }}:${{ github.sha }}
+        resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
+        containerAppName: ${{ secrets.AZURE_CONTAINER_APP_NAME }}
         environmentVariables: |
           ASPNETCORE_ENVIRONMENT=Development
 
